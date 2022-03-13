@@ -8,7 +8,7 @@
     "start": "next start",
     "serve": "concurrently \"npm run dev\" \"npm run mock\"",
     "lint": "next lint",
-    "mock": "json-server -w db.json -p 4200 -d 450"
+    "mock": "json-server -w db.json -p 4200 -d 1750"
   },
   "dependencies": {
     "next": "12.1.0",
