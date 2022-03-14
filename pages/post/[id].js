@@ -38,6 +38,8 @@ export default function Post({ post: serverPost }) {
   );
 }
 
+// эта функция вызывается на сервере и на фронте
+
 Post.getInitialProps = async ({ query, req }) => {
   if (!req) {
     return { post: null };
@@ -48,6 +50,8 @@ Post.getInitialProps = async ({ query, req }) => {
     post,
   };
 };
+
+// а эта только на сервере
 
 // export async function getServerSideProps({ query, req }) {
 //   const response = await fetch(`http://localhost:4200/posts/${query.id}`);
