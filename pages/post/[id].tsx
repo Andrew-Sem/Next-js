@@ -2,14 +2,20 @@ import { useState, useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next";
+import { MyPost } from "../../interfaces/post";
 
-export default function Post({ post: serverPost }) {
+interface PostPageProps{
+  post: MyPost
+}
+
+export default function Post({ post: serverPost }: PostPageProps) {
   const [post, setPost] = useState(serverPost);
   const router = useRouter();
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch(`http://localhost:4200/posts/${router.query.id}`);
+      const res = await fetch(`${process.env.API_URL}/posts/${router.query.id}`);
       const data = await res.json();
       setPost(data);
     };
@@ -38,14 +44,21 @@ export default function Post({ post: serverPost }) {
   );
 }
 
+interface PostNextPageContext extends NextPageContext{
+  query:{
+    id: string
+  }
+}
+
 // эта функция вызывается на сервере и на фронте
 
-Post.getInitialProps = async ({ query, req }) => {
+Post.getInitialProps = async ({ query, req }:PostNextPageContext) => {
   if (!req) {
     return { post: null };
   }
+
   const response = await fetch(`http://localhost:4200/posts/${query.id}`);
-  const post = await response.json();
+  const post: MyPost[] = await response.json();
   return {
     post,
   };

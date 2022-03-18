@@ -1,7 +1,11 @@
 import Router from "next/router";
-import MainLayout from "./../../components/MainLayout";
+import MainLayout from "../../components/MainLayout";
 
-export default function About({ title }) {
+interface AboutPageProps{
+  title: string
+}
+
+export default function About({ title }:AboutPageProps) {
   const linkClickHandler = () => {
     Router.push("/");
   };
@@ -23,7 +27,7 @@ export default function About({ title }) {
 }
 
 About.getInitialProps = async () => {
-  const res = await fetch("http://localhost:4200/about");
+  const res = await fetch(`${process.env.API_URL}/about`);
   const data = await res.json();
 
   return {
